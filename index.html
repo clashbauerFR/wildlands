@@ -1,251 +1,244 @@
 <!DOCTYPE html>
 <html lang="de">
-<head>
+  <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wildlands SMP - Minecraft Server</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        * {margin:0;padding:0;box-sizing:border-box;}
-        :root {
-            --primary-green:#00ff88;
-            --primary-blue:#0066ff;
-            --accent-yellow:#ffcc00;
-            --accent-red:#ff4444;
-            --dark-bg:#0a0a0a;
-            --card-bg:#1a1a1a;
-            --card-border:#2a2a2a;
-            --text-primary:#ffffff;
-            --text-secondary:#a0a0a0;
-            --text-muted:#666666;
-            --glass-bg:rgba(255,255,255,0.05);
-            --glass-border:rgba(255,255,255,0.1);
-            --shadow-light:rgba(0,255,136,0.1);
-            --shadow-heavy:rgba(0,255,136,0.2);
-        }
-        body {font-family:'Inter',sans-serif;background:var(--dark-bg);color:var(--text-primary);line-height:1.6;overflow-x:hidden;}
-        html {scroll-behavior:smooth;}
-        nav {position:fixed;top:0;width:100%;background:rgba(10,10,10,0.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--glass-border);z-index:1000;transition:all 0.3s ease;}
-        nav.scrolled {background:rgba(10,10,10,0.98);box-shadow:0 4px 20px rgba(0,0,0,0.3);}
-        .nav-container {max-width:1200px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center;height:70px;}
-        .logo {font-size:1.5rem;font-weight:700;color:var(--primary-green);text-decoration:none;}
-        .nav-links {display:flex;list-style:none;gap:30px;align-items:center;}
-        .nav-links a {color:var(--text-secondary);text-decoration:none;font-weight:500;transition:all 0.3s ease;}
-        .nav-links a:hover {color:var(--primary-green);}
-        .hero {min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;background:linear-gradient(135deg,var(--dark-bg) 0%,#111111 100%);overflow:hidden;}
-        .hero::before {content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:radial-gradient(circle at 20% 80%,rgba(0,255,136,0.1)0%,transparent 50%),radial-gradient(circle at 80% 20%,rgba(0,102,255,0.1)0%,transparent 50%);pointer-events:none;}
-        .hero-content {text-align:center;z-index:2;max-width:800px;padding:0 20px;}
-        .hero-logo {width:220px;height:auto;margin-bottom:20px;background-color:transparent;}
-        .hero h1 {font-size:4rem;font-weight:700;margin-bottom:20px;background:linear-gradient(135deg,var(--primary-green)0%,var(--primary-blue)100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:fadeInUp 0.8s ease-out;}
-        .hero .subtitle {font-size:1.25rem;color:var(--text-secondary);margin-bottom:40px;font-weight:400;animation:fadeInUp 0.8s ease-out 0.2s both;}
-        @keyframes fadeInUp {from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
-        .server-stats {display:flex;justify-content:center;gap:40px;margin-bottom:40px;animation:fadeInUp 0.8s ease-out 0.4s both;}
-        .stat-card {background:var(--glass-bg);backdrop-filter:blur(20px);border:1px solid var(--glass-border);border-radius:15px;padding:25px;text-align:center;transition:all 0.3s ease;}
-        .stat-card:hover {transform:translateY(-5px);box-shadow:0 10px 30px var(--shadow-light);}
-        .stat-label {font-size:0.9rem;color:var(--text-muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;}
-        .stat-value {font-size:1.5rem;font-weight:600;color:var(--primary-green);}
-        .cta-buttons {display:flex;gap:20px;justify-content:center;animation:fadeInUp 0.8s ease-out 0.6s both;}
-        .btn {padding:15px 35px;border:none;border-radius:50px;font-weight:600;font-size:1rem;cursor:pointer;transition:all 0.3s ease;text-decoration:none;display:inline-flex;align-items:center;gap:10px;}
-        .btn-primary {background:linear-gradient(135deg,var(--primary-green)0%,#00cc66 100%);color:var(--dark-bg);}
-        .btn-primary:hover {transform:translateY(-2px);box-shadow:0 8px 25px var(--shadow-heavy);}
-        .btn-secondary {background:transparent;color:var(--text-primary);border:2px solid var(--glass-border);}
-        .btn-secondary:hover {background:var(--glass-bg);border-color:var(--primary-green);transform:translateY(-2px);}
-        .container {max-width:1200px;margin:0 auto;padding:0 20px;}
-        .section {padding:100px 0;}
-        .section-header {text-align:center;margin-bottom:60px;}
-        .section-title {font-size:2.5rem;font-weight:700;margin-bottom:15px;color:var(--text-primary);}
-        .section-subtitle {font-size:1.1rem;color:var(--text-secondary);max-width:600px;margin:0 auto;}
-        .features-grid {display:grid;grid-template-columns:repeat(auto-fit,minmax(350px,1fr));gap:30px;}
-        .feature-card {background:var(--card-bg);border:1px solid var(--card-border);border-radius:20px;padding:40px;transition:all 0.3s ease;position:relative;overflow:hidden;}
-        .feature-card::before {content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--primary-green),var(--primary-blue));opacity:0;transition:opacity 0.3s ease;}
-        .feature-card:hover::before {opacity:1;}
-        .feature-card:hover {transform:translateY(-10px);box-shadow:0 20px 40px rgba(0,0,0,0.3);border-color:var(--glass-border);}
-        .feature-icon {width:60px;height:60px;background:linear-gradient(135deg,var(--primary-green),var(--primary-blue));border-radius:15px;display:flex;align-items:center;justify-content:center;margin-bottom:25px;font-size:1.5rem;color:var(--dark-bg);}
-        .feature-title {font-size:1.25rem;font-weight:600;margin-bottom:15px;color:var(--text-primary);}
-        .feature-description {color:var(--text-secondary);line-height:1.7;}
-        footer {background:var(--card-bg);border-top:1px solid var(--card-border);padding:60px 0 40px;margin-top:100px;}
-        .footer-content {display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:40px;margin-bottom:40px;}
-        .footer-section h3 {color:var(--text-primary);margin-bottom:20px;font-weight:600;}
-        .footer-section p,.footer-section a {color:var(--text-secondary);text-decoration:none;line-height:1.8;}
-        .footer-section a:hover {color:var(--primary-green);}
-        .social-links {display:flex;gap:15px;margin-top:20px;}
-        .social-link {width:45px;height:45px;background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--text-secondary);text-decoration:none;transition:all 0.3s ease;}
-        .social-link:hover {background:var(--primary-green);color:var(--dark-bg);transform:translateY(-2px);}
-        @media(max-width:768px){.hero h1{font-size:2.5rem;}.server-stats{flex-direction:column;gap:20px;}.cta-buttons{flex-direction:column;align-items:center;}.features-grid{grid-template-columns:1fr;}.nav-links{display:none;}.section{padding:60px 0;}.section-title{font-size:2rem;}}
-        .fade-in{opacity:0;transform:translateY(20px);transition:all 0.6s ease;}
-        .fade-in.visible{opacity:1;transform:translateY(0);}
-        .copy-success{animation:copySuccess 0.5s ease-out;}
-        @keyframes copySuccess{0%{transform:scale(1);}50%{transform:scale(1.1);background:var(--primary-green);}100%{transform:scale(1);}}
-    </style>
+    <title>Wildlands SMP</title>
+    <link rel="icon" type="image/png" href="media/favicon.png">
+    <link rel="stylesheet" href="media/style.css">
+    <link href="https://fonts.bunny.net/css?family=Space+Grotesk:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-    <nav id="navbar">
-        <div class="nav-container">
-            <a href="#" class="logo">Wildlands SMP</a>
-            <ul class="nav-links">
-                <li><a href="#home">Startseite</a></li>
-                <li><a href="#features">Features</a></li>
-                <li><a href="#gallery">Galerie</a></li>
-                <li><a href="#community">Community</a></li>
-            </ul>
-        </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Desktop Navigation -->
+    <nav class="desktop_navbar">
+      <a href="#"><img class="desktop_navbar_logo_img" src="media/logo_small.png" alt="logo"></a>
+      <a href="https://wiki.example.com/" class="desktop_navbar_link">Wiki</a>
+      <a href="#discord" class="desktop_navbar_link scroll">Community</a>
+      <a href="#about" class="desktop_navbar_link scroll">Über uns</a>
+      <div class="desktop_navbar_link2_div">
+          <a href="#join" class="desktop_navbar_link2 scroll">Tritt uns bei!</a>
+      </div>
     </nav>
 
-<section class="hero" id="home">
-    <div class="hero-content">
-        <h1>Wildlands SMP</h1>
-        <p class="subtitle">Erlebe das ultimative Minecraft Survival Abenteuer!</p>
+    <!-- Mobile Navigation -->
+    <div class="mobile_navbar">
+      <a href="#" class="mobile_navbar_logo_img_a"><img class="mobile_navbar_logo_img" src="media/logo_small.png" alt="logo"></a>
+      <div id="mobile_navbar_links">
+          <a class="mobile_navbar_link" onclick="mobile_navbar_link_hider()" href="https://wiki.example.com/">Wiki</a>
+          <a class="mobile_navbar_link scroll" onclick="mobile_navbar_link_hider()" href="#discord">Community</a>
+          <a class="mobile_navbar_link scroll" onclick="mobile_navbar_link_hider()" href="#about">Über uns</a>
+          <a class="mobile_navbar_link scroll" onclick="mobile_navbar_link_hider()" href="#join">Tritt uns bei!</a>
+        </div>
+        <div class="icon" onclick="mobile_navbar_link_hider()">
+            <i class="fa fa-bars"></i>
+        </div>
+        <script>
+            function mobile_navbar_link_hider() {
+              var x = document.getElementById("mobile_navbar_links");
+              if (x.style.display === "flex") {
+                  x.style.display = "none";
+              } else {
+                  x.style.display = "flex";
+              }
+            } 
+        </script>
     </div>
-</section>
 
-<section id="server-info">
-    <div class="server-stats">
-        <div class="stat-card">
-            <div class="stat-label">Server IP</div>
-            <div class="stat-value" id="server-ip">89.106.95.11:25572</div>
+    <!-- Main Content -->
+    <div class="mainflex">
+      <div class="main1">
+        <a class="main1_logo_a" href="#">
+          <img class="main1_logo" src="media/logo.png" alt="logo">
+        </a>
+        <div class="main1_description">
+          <a>Minecraft,<br>wie</a>
+          <a class="main1_actcent">noch nie zuvor</a><a>.</a>
         </div>
-        <div class="stat-card">
-            <div class="stat-label">Version</div>
-            <div class="stat-value">1.21.4</div>
+
+        <!-- IP Copy -->
+        <div class="main1_ipcopier_div">
+          <button class="main1_ipcopier" onclick="copyText()" type="button">
+            <span class="main1_ipcopier_text1">89.106.95.11:25572</span>
+            <br>
+            <span class="main1_ipcopier_text2">Klicken zum Kopieren</span>
+          </button>
+          <script>
+            function copyText() {
+                navigator.clipboard.writeText("89.106.95.11:25572");
+            }
+            $(document).ready(function() {
+              $('.main1_ipcopier').click(function() {
+                var popup = $('<div>', { class: 'main1_popup' })
+                  .append($('<h3 class="copy_confirm">').text('IP in die Zwischenablage kopiert!'))
+                $(this).after(popup);
+                setTimeout(function() {
+                  popup.remove();
+                }, 1000);
+              });
+            });
+          </script>
         </div>
-        <div class="stat-card">
-            <div class="stat-label">Spieler</div>
-            <div class="stat-value" id="player-count">Lade...</div>
+
+        <a href="#more" class="scroll">
+          <img alt="downarrow" class="main1_downarrow" src="media/downarrow.png">
+        </a>
+
+        <script>
+          const scrollLinks = document.querySelectorAll('.scroll');
+          scrollLinks.forEach(function(link) {
+            link.addEventListener('click', function(event) {
+              event.preventDefault();
+              const target = document.querySelector(link.getAttribute('href'));
+              const offsetTop = target.offsetTop;
+              window.scrollTo({
+                top: offsetTop,
+                behavior: 'smooth'
+              });
+            });
+          });
+        </script>
+      </div>
+
+      <div id="more"></div>
+
+      <!-- Features -->
+      <div class="main2">
+        <a class="headline">Was wir bieten</a>
+        <div class="main2_features_div">
+          <div class="main2_feature">
+            <img class="main2_feature_img" alt="Feature Bild" src="media/placeholder.png">
+            <a class="main2_feature_headline">Überlebensmodus</a>
+            <a class="main2_feature_text">Ein klassisches, aber verbessertes Survival-Erlebnis mit einzigartigen Features.</a>
+          </div>
+          <div class="main2_feature">
+            <img class="main2_feature_img" alt="Feature Bild" src="media/placeholder.png">
+            <a class="main2_feature_headline">Events & Challenges</a>
+            <a class="main2_feature_text">Nimm regelmäßig an spannenden Server-Events teil und gewinne tolle Preise!</a>
+          </div>
+          <div class="main2_feature">
+            <img class="main2_feature_img" alt="Feature Bild" src="media/placeholder.png">
+            <a class="main2_feature_headline">Aktive Community</a>
+            <a class="main2_feature_text">Freundliche Spieler, hilfsbereites Team und eine lebhafte Atmosphäre.</a>
+          </div>
+          <div class="main2_feature">
+            <img class="main2_feature_img" alt="Feature Bild" src="media/placeholder.png">
+            <a class="main2_feature_headline">Eigene Wirtschaft</a>
+            <a class="main2_feature_text">Handel mit anderen Spielern und baue dein eigenes Imperium auf.</a>
+          </div>
+          <div class="main2_feature">
+            <img class="main2_feature_img" alt="Feature Bild" src="media/placeholder.png">
+            <a class="main2_feature_headline">Grief-Schutz</a>
+            <a class="main2_feature_text">Schütze dein Grundstück und baue in Ruhe, ohne Angst vor Zerstörung.</a>
+          </div>
         </div>
+      </div>
+
+      <!-- Discord -->
+      <div id="discord"></div>
+      <div class="main4">
+        <a class="headline">Trete unserem Discord bei</a>
+        <div class="main4_dc_div">
+          <iframe class="main4_dc_widget" src="https://imgur.com/78RPeUY.png" width="350" height="500" title="discord" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+          <div class="main4_dc_description_div">
+            <a class="main4_dc_description_title">Lass uns reden!</a>
+            <a class="main4_dc_description">
+              ・Lerne andere Spieler kennen <br>
+              ・Stelle Fragen <br>
+              ・Erhalte Neuigkeiten & Updates <br>
+              ・Gib Feedback <br><br>
+              &amp; vieles mehr!
+            </a>
+            <a href="https://discord.gg/INVITE" class="main4_dc_button_a">
+              <div class="main4_dc_button">Jetzt beitreten</div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- About -->
+      <div id="about"></div>
+      <div class="main5">
+        <a class="headline">Wer wir sind</a>
+        <div class="main5_admin_div">
+          <div class="main5_admins_div main5_admins_dev_type2">
+            <img class="main5_admins_img" alt="Admin Bild" src="media/member_placeholder.webp">
+            <div class="main5_admins_description_div">
+              <a class="main5_admins_description_rank main5_admins_description_rank_owner">[Owner]</a>
+              <a class="main5_admins_description_title" href="#">Serverleitung</a>
+              <a class="main5_admins_description">Leitet das Projekt und sorgt für ein großartiges Spielerlebnis.</a>
+            </div>
+          </div>
+          <div class="main5_admins_div main5_admins_dev_type1">
+            <img class="main5_admins_img" alt="Admin Bild" src="media/member_placeholder.webp">
+            <div class="main5_admins_description_div">
+              <a class="main5_admins_description_rank main5_admins_description_rank_admin">[Admin]</a>
+              <a class="main5_admins_description_title" href="#">Administrator</a>
+              <a class="main5_admins_description">Verwaltet Server, Plugins und kümmert sich um Support.</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="main5_supporter_div">
+          <div class="main5_supporters_div">
+            <img class="main5_supporters_img" alt="Supporter Bild" src="media/member_placeholder.webp">
+            <div class="main5_supporters_description_div">
+              <a class="main5_supporters_description_rank main5_supporters_description_rank_supporter">[Supporter]</a>
+              <a class="main5_supporters_description_title">Supporter 1</a>
+              <a class="main5_supporters_description">Hilft neuen Spielern und unterstützt die Community.</a>
+            </div>
+          </div>
+          <div class="main5_supporters_div">
+            <img class="main5_supporters_img" alt="Supporter Bild" src="media/member_placeholder.webp">
+            <div class="main5_supporters_description_div">
+              <a class="main5_supporters_description_rank main5_supporters_description_rank_supporter">[Supporter]</a>
+              <a class="main5_supporters_description_title">Supporter 2</a>
+              <a class="main5_supporters_description">Hilft neuen Spielern und unterstützt die Community.</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Join -->
+      <div id="join"></div>
+      <div class="main3">
+        <a class="headline">So kannst du mitspielen</a>
+        <div class="main3_join_div_div">
+          <div class="main3_join_div">
+            <a class="main3_join_title">Java Edition</a>
+            <div class="main3_join_content_div">
+              <div class="main3_join_categories">
+                <a>IP:</a>
+                <a>Version:</a>
+              </div>
+              <div class="main3_join_values">
+                <a>89.106.95.11:25572</a>
+                <a>1.20.1</a>
+              </div>
+            </div>
+          </div>
+          <div class="main3_join_div">
+            <a class="main3_join_title">Bedrock Edition</a>
+            <div class="main3_join_content_div">
+              <div class="main3_join_categories">
+                <a>IP:</a>
+                <a>Port:</a>
+              </div>
+              <div class="main3_join_values">
+                <a>89.106.95.11</a>
+                <a>25572</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-</section>
-<div class="cta-buttons">
-    <button onclick="copyServerIP()" class="btn btn-primary">
-        <i class="fas fa-play"></i>
-        IP kopieren
-    </button>
-    <a href="https://discord.gg/vSxFaHfbJA" target="_blank" class="btn btn-secondary">
-        <i class="fab fa-discord"></i>
-        Discord
-    </a>
-</div>
 
-<script>
-function copyServerIP() {
-    const ip = "89.106.95.11:25572";
-    navigator.clipboard.writeText(ip).then(() => { alert("📋 Server-IP kopiert: " + ip); }).catch(err => { alert("Fehler beim Kopieren der IP."); console.error(err); });
-}
-
-fetch("https://api.mcsrvstat.us/2/89.106.95.11:25572")
-    .then(response => response.json())
-    .then(data => {
-        if(data && data.online){
-            document.getElementById("player-count").textContent = `${data.players.online}/${data.players.max}`;
-        } else {
-            document.getElementById("player-count").textContent = "Offline";
-        }
-    })
-    .catch(err => { console.error("API error:", err); document.getElementById("player-count").textContent = "Offline"; });
-</script>
-
-<section class="section" id="features">
-    <div class="container">
-        <div class="section-header fade-in">
-            <h2 class="section-title">Server Features</h2>
-            <p class="section-subtitle">Erlebe ein Survival Abenteuer mit Custom Plugins, Events & Community.</p>
-        </div>
-        <div class="features-grid">
-            <div class="feature-card fade-in">
-                <div class="feature-icon"><i class="fas fa-coins"></i></div>
-                <h3 class="feature-title">Wirtschaft</h3>
-                <p class="feature-description">Spielergesteuerte Wirtschaft mit Handel & Shops.</p>
-            </div>
-            <div class="feature-card fade-in">
-                <div class="feature-icon"><i class="fas fa-users"></i></div>
-                <h3 class="feature-title">Community Events</h3>
-                <p class="feature-description">Regelmäßige Events und Wettbewerbe mit tollen Preisen.</p>
-            </div>
-            <div class="feature-card fade-in">
-                <div class="feature-icon"><i class="fas fa-calendar"></i></div>
-                <h3 class="feature-title">Saisonale Events</h3>
-                <p class="feature-description">Feiere besondere Anlässe mit der Community.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section id="online-players" style="padding:80px 0;background:#0b1020;color:#e6eef6;">
-  <div class="container" style="max-width:900px;margin:0 auto;padding:0 20px;text-align:center;">
-    <h2 style="font-size:32px;margin-bottom:40px;font-weight:700;">Spieler online</h2>
-    <div id="playersGrid" class="players-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:14px;"></div>
-    <p id="playersNote" style="margin-top:20px;font-size:14px;color:#aaa;">Lade Spieler...</p>
-  </div>
-</section>
-
-<script>
-const SERVER_HOST = "89.106.95.11:25572"; 
-const STATUS_API = host => `https://api.mcsrvstat.us/2/${encodeURIComponent(host)}`;
-const MOJANG_PROFILE = u => `https://api.mojang.com/users/profiles/minecraft/${encodeURIComponent(u)}`;
-const CRAFATAR = (uuid,size=64)=>`https://crafatar.com/avatars/${uuid}?size=${size}&overlay`;
-
-const playersGrid = document.getElementById('playersGrid');
-const playersNote = document.getElementById('playersNote');
-
-async function fetchPlayers(){
-  playersGrid.innerHTML = '';
-  playersNote.textContent = 'Lade Spieler...';
-  try{
-    const res = await fetch(STATUS_API(SERVER_HOST));
-    const data = await res.json();
-    const online = data?.players?.online || 0;
-    const list = data?.players?.list || [];
-
-    if(!list.length){
-      playersNote.textContent = online===0 ? 'Keine Spieler online.' : `Es sind ${online} Spieler online, aber keine Liste verfügbar.`;
-      return;
-    }
-
-    playersNote.textContent = `${list.length} Spieler angezeigt (von ${online} online).`;
-
-    for(const name of list){
-      const card = document.createElement("div");
-      card.className = "player";
-      card.style.cssText = "background:rgba(255,255,255,0.04);border-radius:10px;padding:10px;display:flex;flex-direction:column;align-items:center;gap:6px;";
-
-      const img = document.createElement("img");
-      img.alt = name;
-      img.src = `https://mc-heads.net/avatar/${name}/64`; // fallback
-      img.style.cssText = "width:64px;height:64px;border-radius:12px;";
-
-      const nm = document.createElement("div");
-      nm.className = "name";
-      nm.textContent = name;
-      nm.style.cssText = "font-weight:600;font-size:14px;text-align:center;word-break:break-word;";
-
-      card.appendChild(img);
-      card.appendChild(nm);
-      playersGrid.appendChild(card);
-
-      try{
-        const prof = await fetch(MOJANG_PROFILE(name));
-        if(prof.ok){
-          const p = await prof.json();
-          img.src = CRAFATAR(p.id,64);
-        }
-      }catch{}
-    }
-  }catch(e){
-    console.error(e);
-    playersNote.textContent = 'Fehler beim Laden des Status.';
-  }
-}
-
-fetchPlayers();
-setInterval(fetchPlayers,30000);
-</script>
-<script>
-window.addEventListener('scroll', () => {
-    const navbar = document.getElementById('navbar');
-    if(window.scrollY > 50){navbar.classList.add('scrolled');}else{navbar.classList.remove('scrolled');}
-});
-document.querySelectorAll('.fade-in').forEach(el => {new IntersectionObserver(entries => {entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');}});},{threshold:0.1,rootMargin:'0px 0px -50px 0px'}).observe(el);});
-</script>
-
-</body>
+    <footer class="copyright_div">
+      <a href="#" class="copyright">© Wildlands SMP 2025 – Erstellt mit ♥ von der Community</a>
+    </footer>
+  </body>
 </html>
