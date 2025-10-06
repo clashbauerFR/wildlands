@@ -1,244 +1,204 @@
 <!DOCTYPE html>
 <html lang="de">
-  <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wildlands SMP</title>
-    <link rel="icon" type="image/png" href="media/favicon.png">
-    <link rel="stylesheet" href="media/style.css">
-    <link href="https://fonts.bunny.net/css?family=Space+Grotesk:wght@500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wildlands SMP - Dein Minecraft Abenteuer</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <style>
+    /* Dein bestehendes CSS (gekürzt) */
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#0a0e1a; color:#fff; overflow-x:hidden; }
+    header { height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; }
+    .logo { font-size:5rem; font-weight:bold; background:linear-gradient(135deg,#667eea 0%,#764ba2 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; animation:glow 2s ease-in-out infinite; }
+    @keyframes glow { 0%,100%{filter:drop-shadow(0 0 20px rgba(102,126,234,0.5));} 50%{filter:drop-shadow(0 0 40px rgba(102,126,234,0.8));}}
+    .btn { padding:1rem 2.5rem; border:none; border-radius:50px; cursor:pointer; font-weight:600; text-decoration:none; display:inline-block; transition:0.3s; }
+    .btn-primary { background:linear-gradient(135deg,#667eea 0%,#764ba2 100%); color:white; box-shadow:0 10px 30px rgba(102,126,234,0.4); }
+    .btn-primary:hover { transform:translateY(-3px); box-shadow:0 15px 40px rgba(102,126,234,0.6); }
+    .server-info { background:rgba(255,255,255,0.05); backdrop-filter:blur(20px); border-radius:20px; padding:3rem; margin:5rem auto; max-width:900px; box-shadow:0 20px 60px rgba(0,0,0,0.3); text-align:center; }
+    .ip-box { background:rgba(0,0,0,0.3); border:2px solid #667eea; border-radius:15px; padding:2rem; margin:2rem 0; }
+    .copy-btn { margin-top:1rem; padding:0.5rem 1.5rem; background:rgba(102,126,234,0.2); border:1px solid #667eea; color:#667eea; border-radius:25px; cursor:pointer; }
+    .copy-btn:hover { background:#667eea; color:white; }
+    footer { text-align:center; padding:3rem; background:rgba(0,0,0,0.3); margin-top:5rem; }
+
+    /* Spieleranzeige */
+    .player-section {
+      margin-top: 3rem;
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+    }
+
+    .player-section h3 {
+      color: #667eea;
+      margin-bottom: 1rem;
+    }
+
+    .player-count {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      color: #a0aec0;
+    }
+
+    .player-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+
+    .player-card {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      padding: 1rem;
+      width: 120px;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: 0.3s;
+    }
+
+    .player-card:hover {
+      transform: translateY(-5px);
+      border-color: #667eea;
+    }
+
+    .player-skin {
+      width: 64px;
+      height: 64px;
+      border-radius: 8px;
+      image-rendering: pixelated;
+    }
+
+    .player-name {
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      color: #fff;
+      word-break: break-all;
+    }
+  </style>
 </head>
 <body>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <canvas id="bg-canvas"></canvas>
 
-    <!-- Desktop Navigation -->
-    <nav class="desktop_navbar">
-      <a href="#"><img class="desktop_navbar_logo_img" src="media/logo_small.png" alt="logo"></a>
-      <a href="https://wiki.example.com/" class="desktop_navbar_link">Wiki</a>
-      <a href="#discord" class="desktop_navbar_link scroll">Community</a>
-      <a href="#about" class="desktop_navbar_link scroll">Über uns</a>
-      <div class="desktop_navbar_link2_div">
-          <a href="#join" class="desktop_navbar_link2 scroll">Tritt uns bei!</a>
-      </div>
-    </nav>
-
-    <!-- Mobile Navigation -->
-    <div class="mobile_navbar">
-      <a href="#" class="mobile_navbar_logo_img_a"><img class="mobile_navbar_logo_img" src="media/logo_small.png" alt="logo"></a>
-      <div id="mobile_navbar_links">
-          <a class="mobile_navbar_link" onclick="mobile_navbar_link_hider()" href="https://wiki.example.com/">Wiki</a>
-          <a class="mobile_navbar_link scroll" onclick="mobile_navbar_link_hider()" href="#discord">Community</a>
-          <a class="mobile_navbar_link scroll" onclick="mobile_navbar_link_hider()" href="#about">Über uns</a>
-          <a class="mobile_navbar_link scroll" onclick="mobile_navbar_link_hider()" href="#join">Tritt uns bei!</a>
-        </div>
-        <div class="icon" onclick="mobile_navbar_link_hider()">
-            <i class="fa fa-bars"></i>
-        </div>
-        <script>
-            function mobile_navbar_link_hider() {
-              var x = document.getElementById("mobile_navbar_links");
-              if (x.style.display === "flex") {
-                  x.style.display = "none";
-              } else {
-                  x.style.display = "flex";
-              }
-            } 
-        </script>
+  <header>
+    <div class="logo">WILDLANDS SMP</div>
+    <div class="tagline">Erlebe das ultimative Survival-Abenteuer</div>
+    <div class="cta-buttons">
+      <button class="btn btn-primary" onclick="copyIP()">Server IP kopieren</button>
+      <a href="https://discord.gg/vSxFaHfbJA" target="_blank" class="btn btn-secondary">Discord beitreten</a>
     </div>
+  </header>
 
-    <!-- Main Content -->
-    <div class="mainflex">
-      <div class="main1">
-        <a class="main1_logo_a" href="#">
-          <img class="main1_logo" src="media/logo.png" alt="logo">
-        </a>
-        <div class="main1_description">
-          <a>Minecraft,<br>wie</a>
-          <a class="main1_actcent">noch nie zuvor</a><a>.</a>
-        </div>
-
-        <!-- IP Copy -->
-        <div class="main1_ipcopier_div">
-          <button class="main1_ipcopier" onclick="copyText()" type="button">
-            <span class="main1_ipcopier_text1">89.106.95.11:25572</span>
-            <br>
-            <span class="main1_ipcopier_text2">Klicken zum Kopieren</span>
-          </button>
-          <script>
-            function copyText() {
-                navigator.clipboard.writeText("89.106.95.11:25572");
-            }
-            $(document).ready(function() {
-              $('.main1_ipcopier').click(function() {
-                var popup = $('<div>', { class: 'main1_popup' })
-                  .append($('<h3 class="copy_confirm">').text('IP in die Zwischenablage kopiert!'))
-                $(this).after(popup);
-                setTimeout(function() {
-                  popup.remove();
-                }, 1000);
-              });
-            });
-          </script>
-        </div>
-
-        <a href="#more" class="scroll">
-          <img alt="downarrow" class="main1_downarrow" src="media/downarrow.png">
-        </a>
-
-        <script>
-          const scrollLinks = document.querySelectorAll('.scroll');
-          scrollLinks.forEach(function(link) {
-            link.addEventListener('click', function(event) {
-              event.preventDefault();
-              const target = document.querySelector(link.getAttribute('href'));
-              const offsetTop = target.offsetTop;
-              window.scrollTo({
-                top: offsetTop,
-                behavior: 'smooth'
-              });
-            });
-          });
-        </script>
+  <div class="container">
+    <div class="server-info">
+      <h2>Verbinde dich mit uns</h2>
+      <div class="ip-box">
+        <div class="ip-label">SERVER IP</div>
+        <div class="ip-address" id="serverIP">89.106.95.11:25572</div>
+        <button class="copy-btn" onclick="copyIP()">📋 Kopieren</button>
       </div>
 
-      <div id="more"></div>
-
-      <!-- Features -->
-      <div class="main2">
-        <a class="headline">Was wir bieten</a>
-        <div class="main2_features_div">
-          <div class="main2_feature">
-            <img class="main2_feature_img" alt="Feature Bild" src="media/placeholder.png">
-            <a class="main2_feature_headline">Überlebensmodus</a>
-            <a class="main2_feature_text">Ein klassisches, aber verbessertes Survival-Erlebnis mit einzigartigen Features.</a>
-          </div>
-          <div class="main2_feature">
-            <img class="main2_feature_img" alt="Feature Bild" src="media/placeholder.png">
-            <a class="main2_feature_headline">Events & Challenges</a>
-            <a class="main2_feature_text">Nimm regelmäßig an spannenden Server-Events teil und gewinne tolle Preise!</a>
-          </div>
-          <div class="main2_feature">
-            <img class="main2_feature_img" alt="Feature Bild" src="media/placeholder.png">
-            <a class="main2_feature_headline">Aktive Community</a>
-            <a class="main2_feature_text">Freundliche Spieler, hilfsbereites Team und eine lebhafte Atmosphäre.</a>
-          </div>
-          <div class="main2_feature">
-            <img class="main2_feature_img" alt="Feature Bild" src="media/placeholder.png">
-            <a class="main2_feature_headline">Eigene Wirtschaft</a>
-            <a class="main2_feature_text">Handel mit anderen Spielern und baue dein eigenes Imperium auf.</a>
-          </div>
-          <div class="main2_feature">
-            <img class="main2_feature_img" alt="Feature Bild" src="media/placeholder.png">
-            <a class="main2_feature_headline">Grief-Schutz</a>
-            <a class="main2_feature_text">Schütze dein Grundstück und baue in Ruhe, ohne Angst vor Zerstörung.</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Discord -->
-      <div id="discord"></div>
-      <div class="main4">
-        <a class="headline">Trete unserem Discord bei</a>
-        <div class="main4_dc_div">
-          <iframe class="main4_dc_widget" src="https://imgur.com/78RPeUY.png" width="350" height="500" title="discord" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
-          <div class="main4_dc_description_div">
-            <a class="main4_dc_description_title">Lass uns reden!</a>
-            <a class="main4_dc_description">
-              ・Lerne andere Spieler kennen <br>
-              ・Stelle Fragen <br>
-              ・Erhalte Neuigkeiten & Updates <br>
-              ・Gib Feedback <br><br>
-              &amp; vieles mehr!
-            </a>
-            <a href="https://discord.gg/INVITE" class="main4_dc_button_a">
-              <div class="main4_dc_button">Jetzt beitreten</div>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <!-- About -->
-      <div id="about"></div>
-      <div class="main5">
-        <a class="headline">Wer wir sind</a>
-        <div class="main5_admin_div">
-          <div class="main5_admins_div main5_admins_dev_type2">
-            <img class="main5_admins_img" alt="Admin Bild" src="media/member_placeholder.webp">
-            <div class="main5_admins_description_div">
-              <a class="main5_admins_description_rank main5_admins_description_rank_owner">[Owner]</a>
-              <a class="main5_admins_description_title" href="#">Serverleitung</a>
-              <a class="main5_admins_description">Leitet das Projekt und sorgt für ein großartiges Spielerlebnis.</a>
-            </div>
-          </div>
-          <div class="main5_admins_div main5_admins_dev_type1">
-            <img class="main5_admins_img" alt="Admin Bild" src="media/member_placeholder.webp">
-            <div class="main5_admins_description_div">
-              <a class="main5_admins_description_rank main5_admins_description_rank_admin">[Admin]</a>
-              <a class="main5_admins_description_title" href="#">Administrator</a>
-              <a class="main5_admins_description">Verwaltet Server, Plugins und kümmert sich um Support.</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="main5_supporter_div">
-          <div class="main5_supporters_div">
-            <img class="main5_supporters_img" alt="Supporter Bild" src="media/member_placeholder.webp">
-            <div class="main5_supporters_description_div">
-              <a class="main5_supporters_description_rank main5_supporters_description_rank_supporter">[Supporter]</a>
-              <a class="main5_supporters_description_title">Supporter 1</a>
-              <a class="main5_supporters_description">Hilft neuen Spielern und unterstützt die Community.</a>
-            </div>
-          </div>
-          <div class="main5_supporters_div">
-            <img class="main5_supporters_img" alt="Supporter Bild" src="media/member_placeholder.webp">
-            <div class="main5_supporters_description_div">
-              <a class="main5_supporters_description_rank main5_supporters_description_rank_supporter">[Supporter]</a>
-              <a class="main5_supporters_description_title">Supporter 2</a>
-              <a class="main5_supporters_description">Hilft neuen Spielern und unterstützt die Community.</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Join -->
-      <div id="join"></div>
-      <div class="main3">
-        <a class="headline">So kannst du mitspielen</a>
-        <div class="main3_join_div_div">
-          <div class="main3_join_div">
-            <a class="main3_join_title">Java Edition</a>
-            <div class="main3_join_content_div">
-              <div class="main3_join_categories">
-                <a>IP:</a>
-                <a>Version:</a>
-              </div>
-              <div class="main3_join_values">
-                <a>89.106.95.11:25572</a>
-                <a>1.20.1</a>
-              </div>
-            </div>
-          </div>
-          <div class="main3_join_div">
-            <a class="main3_join_title">Bedrock Edition</a>
-            <div class="main3_join_content_div">
-              <div class="main3_join_categories">
-                <a>IP:</a>
-                <a>Port:</a>
-              </div>
-              <div class="main3_join_values">
-                <a>89.106.95.11</a>
-                <a>25572</a>
-              </div>
-            </div>
-          </div>
-        </div>
+      <!-- LIVE SPIELERANZEIGE -->
+      <div class="player-section" id="player-section">
+        <h3>🌐 Aktive Spieler</h3>
+        <div id="player-count" class="player-count">Lade Serverdaten...</div>
+        <div id="player-list" class="player-list"></div>
       </div>
     </div>
+  </div>
 
-    <footer class="copyright_div">
-      <a href="#" class="copyright">© Wildlands SMP 2025 – Erstellt mit ♥ von der Community</a>
-    </footer>
-  </body>
+  <footer>
+    <p>&copy; 2025 Wildlands SMP. Alle Rechte vorbehalten.</p>
+    <p style="color: #a0aec0;">Nicht mit Mojang Studios verbunden</p>
+  </footer>
+
+  <script>
+    // Hintergrund (Three.js)
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg-canvas'), alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    camera.position.z = 5;
+
+    const geometry = new THREE.BufferGeometry();
+    const vertices = [], colors = [];
+    for (let i = 0; i < 2000; i++) {
+      vertices.push((Math.random() - 0.5) * 100, (Math.random() - 0.5) * 100, (Math.random() - 0.5) * 100);
+      colors.push(Math.random() * 0.5 + 0.5, Math.random() * 0.3 + 0.4, Math.random() * 0.8 + 0.2);
+    }
+    geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+    geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+    const material = new THREE.PointsMaterial({ size: 0.1, vertexColors: true, transparent: true, opacity: 0.8 });
+    const particles = new THREE.Points(geometry, material);
+    scene.add(particles);
+
+    function animate() {
+      requestAnimationFrame(animate);
+      particles.rotation.x += 0.0003;
+      particles.rotation.y += 0.0005;
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // IP Kopieren
+    function copyIP() {
+      const ip = document.getElementById('serverIP').textContent;
+      navigator.clipboard.writeText(ip).then(() => alert("Server-IP kopiert!"));
+    }
+
+    // Live-Spieleranzeige
+    async function loadServerStatus() {
+      const ip = "89.106.95.11:25572";
+      const apiUrl = `https://api.mcstatus.io/v2/status/java/${ip}`;
+      const playerCount = document.getElementById("player-count");
+      const playerList = document.getElementById("player-list");
+
+      try {
+        const res = await fetch(apiUrl);
+        const data = await res.json();
+
+        if (!data.online) {
+          playerCount.textContent = "❌ Der Server ist derzeit offline.";
+          return;
+        }
+
+        const online = data.players.online;
+        const max = data.players.max;
+        playerCount.textContent = `🟢 ${online} von ${max} Spielern online`;
+
+        playerList.innerHTML = "";
+
+        if (online === 0) {
+          playerList.innerHTML = "<p style='color:#a0aec0'>Niemand ist derzeit online 😴</p>";
+          return;
+        }
+
+        data.players.list?.forEach(player => {
+          const skinUrl = `https://mc-heads.net/avatar/${player.uuid}/64`;
+          const card = document.createElement("div");
+          card.className = "player-card";
+          card.innerHTML = `
+            <img class="player-skin" src="${skinUrl}" alt="Skin">
+            <div class="player-name">${player.name_clean}</div>
+          `;
+          playerList.appendChild(card);
+        });
+
+      } catch (e) {
+        console.error("Fehler beim Abrufen der Serverdaten:", e);
+        playerCount.textContent = "⚠️ Konnte Serverstatus nicht laden.";
+      }
+    }
+
+    loadServerStatus();
+    setInterval(loadServerStatus, 30000); // alle 30 Sekunden aktualisieren
+  </script>
+</body>
 </html>
