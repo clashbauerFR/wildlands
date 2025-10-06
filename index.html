@@ -271,7 +271,42 @@
             <a href="https://discord.gg/vSxFaHfbJA" target="_blank" class="btn btn-secondary">Discord beitreten</a>
         </div>
     </header>
-  
+
+    <div class="container">
+        <div class="server-info">
+            <h2 style="text-align: center; margin-bottom: 2rem; font-size: 2.5rem;">Verbinde dich mit uns</h2>
+            
+            <div class="ip-box">
+                <div class="ip-label">SERVER IP</div>
+                <div class="ip-address" id="serverIP">89.106.95.11:25572</div>
+                <button class="copy-btn" onclick="copyIP()">📋 Kopieren</button>
+            </div>
+
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">🌍</div>
+                    <h3>Survival</h3>
+                    <p>Erkunde eine riesige offene Welt voller Abenteuer</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">👥</div>
+                    <h3>Community</h3>
+                    <p>Freundliche Spieler und aktive Community</p>
+                </div>
+
+            <div class="discord-widget">
+                <h3>💬 Join unsere Community</h3>
+                <p style="color: #a0aec0; margin-bottom: 1.5rem;">Tritt unserem Discord bei und bleib immer auf dem Laufenden!</p>
+                <a href="https://discord.gg/vSxFaHfbJA" target="_blank" class="btn btn-primary">Discord Server</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Wildlands SMP. Alle Rechte vorbehalten.</p>
+        <p style="color: #a0aec0; margin-top: 0.5rem;">Nicht mit Mojang Studios verbunden</p>
+    </footer>
+        
 <!-- Live Spieleranzeige -->
 <div class="player-status" style="text-align:center; margin-top:3rem;">
     <h2 style="color:#667eea; margin-bottom:1.5rem;">🟢 Aktive Spieler</h2>
@@ -322,41 +357,6 @@
     updatePlayers();
     setInterval(updatePlayers, 30000);
 </script>
-    <div class="container">
-        <div class="server-info">
-            <h2 style="text-align: center; margin-bottom: 2rem; font-size: 2.5rem;">Verbinde dich mit uns</h2>
-            
-            <div class="ip-box">
-                <div class="ip-label">SERVER IP</div>
-                <div class="ip-address" id="serverIP">89.106.95.11:25572</div>
-                <button class="copy-btn" onclick="copyIP()">📋 Kopieren</button>
-            </div>
-
-            <div class="features">
-                <div class="feature">
-                    <div class="feature-icon">🌍</div>
-                    <h3>Survival</h3>
-                    <p>Erkunde eine riesige offene Welt voller Abenteuer</p>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon">👥</div>
-                    <h3>Community</h3>
-                    <p>Freundliche Spieler und aktive Community</p>
-                </div>
-
-            <div class="discord-widget">
-                <h3>💬 Join unsere Community</h3>
-                <p style="color: #a0aec0; margin-bottom: 1.5rem;">Tritt unserem Discord bei und bleib immer auf dem Laufenden!</p>
-                <a href="https://discord.gg/vSxFaHfbJA" target="_blank" class="btn btn-primary">Discord Server</a>
-            </div>
-        </div>
-    </div>
-
-    <footer>
-        <p>&copy; 2025 Wildlands SMP. Alle Rechte vorbehalten.</p>
-        <p style="color: #a0aec0; margin-top: 0.5rem;">Nicht mit Mojang Studios verbunden</p>
-    </footer>
-
     <script>
         // Three.js Hintergrund
         const scene = new THREE.Scene();
